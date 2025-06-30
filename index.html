@@ -5,18 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kupon FAMA Mobile</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    iframe.hidden { display: none; }
+    iframe.visible { display: block; width: 100%; border: none; margin-top: 1rem; }
+  </style>
 </head>
 <body class="bg-green-50 min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center">
     <img src="logo.png" alt="Logo" class="h-20 mx-auto mb-6" />
     <h1 class="text-2xl font-bold mb-4 text-green-700">Tebus Kod Promosi</h1>
-    <form action="https://script.google.com/macros/s/AKfycbxJxsQ6kPa3ndj91VISkevqHYKDvKZXwJHV8C85GORNlnqnraJ6wIFnvOv9uG_T4TMw/exec" method="POST" target="_blank" class="space-y-4">
+    
+    <form id="kodForm" action="https://script.google.com/macros/s/AKfycbwDJjirpFyzVR_DWbpuDDfu2c7NEx6rD8rYc0vYdV9DNzdLmFb5SR8ksQ6V_D1bL0M_/exec" method="POST" target="responFrame" onsubmit="showIframe()" class="space-y-4">
       <input type="text" name="nama" placeholder="Nama Penuh" required class="w-full p-2 border rounded" />
       <input type="tel" name="telefon" placeholder="No. Telefon" required class="w-full p-2 border rounded" />
       <input type="text" name="organisasi" placeholder="Jabatan / Organisasi" required class="w-full p-2 border rounded" />
       <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">Hantar</button>
     </form>
-    <p class="mt-4 text-sm text-gray-500">Kod promosi akan dipaparkan dalam tab baharu.</p>
+
+    <iframe name="responFrame" id="responFrame" class="hidden"></iframe>
   </div>
+
+  <script>
+    function showIframe() {
+      const iframe = document.getElementById("responFrame");
+      iframe.classList.remove("hidden");
+      iframe.classList.add("visible");
+    }
+  </script>
 </body>
 </html>
