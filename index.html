@@ -1,70 +1,55 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <title>Pendaftaran Kod AgroBazar</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    form {
-      display: inline-block;
-      text-align: left;
-      margin-top: 20px;
-    }
-    img {
-      margin-top: 20px;
-      max-height: 100px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kupon FAMA Mobile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <img src="logo.png" alt="Logo KuponFAMAMobile">
-  <h2>Daftar Kod AgroBazar</h2>
-  <form id="kodForm">
-    <label>Nama:</label><br>
-    <input type="text" name="nama" required><br><br>
-
-    <label>No Telefon:</label><br>
-    <input type="tel" name="telefon" required><br><br>
-
-    <label>Jabatan / Organisasi:</label><br>
-    <input type="text" name="organisasi" required><br><br>
-
-    <label>Kod Unik:</label><br>
-    <input type="text" name="kod" required><br><br>
-
-    <button type="submit">Hantar</button>
-  </form>
-
-  <p id="mesej"></p>
+<body class="bg-green-50 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center">
+    <img src="logo.png" alt="Logo" class="h-20 mx-auto mb-6" />
+    <h1 class="text-2xl font-bold mb-4 text-green-700">Tebus Kod Promosi</h1>
+    <form id="kodForm" class="space-y-4">
+      <input type="text" name="nama" placeholder="Nama Penuh" required class="w-full p-2 border rounded" />
+      <input type="tel" name="telefon" placeholder="No. Telefon" required class="w-full p-2 border rounded" />
+      <input type="text" name="organisasi" placeholder="Jabatan / Organisasi" required class="w-full p-2 border rounded" />
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">Hantar</button>
+    </form>
+    <div id="result" class="mt-6 text-green-800 font-semibold hidden"></div>
+  </div>
 
   <script>
     const form = document.getElementById('kodForm');
-    const mesej = document.getElementById('mesej');
+    const result = document.getElementById('result');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      mesej.textContent = 'Memproses...';
+      result.classList.add('hidden');
+      result.textContent = 'Memproses permintaan anda...';
 
       const data = {
         nama: form.nama.value,
         telefon: form.telefon.value,
-        organisasi: form.organisasi.value,
-        kod: form.kod.value
+        organisasi: form.organisasi.value
       };
 
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxFNHsmDebiu8CA7SztpkE9B4wXIr2Z8CI7FrB1LNDQFEQ4vVhMvfElWiOcVqtIaA46BQ/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbXXXXXXX/exec', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       });
 
-      const result = await response.json();
-      mesej.textContent = result.mesej;
+      const res = await response.json();
+
+      if (res.kod) {
+        result.innerHTML = `Terima kasih, <strong>${data.nama}</strong>!<br>Kod promosi anda ialah: <strong>${res.kod}</strong><br>Gunakan semasa pembelian di Agrobazaar Online.<br><strong>Sah sehingga 31 Julai 2025.</strong>`;
+        form.reset();
+      } else {
+        result.textContent = res.mesej || "Ralat berlaku. Sila cuba lagi.";
+      }
+
+      result.classList.remove('hidden');
     });
   </script>
 </body>
