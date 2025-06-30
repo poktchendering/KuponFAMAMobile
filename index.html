@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Pendaftaran Kod AgroBazar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+      margin-top: 20px;
+    }
+    img {
+      margin-top: 20px;
+      max-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo.png" alt="Logo KuponFAMAMobile">
+  <h2>Daftar Kod AgroBazar</h2>
+  <form id="kodForm">
+    <label>Nama:</label><br>
+    <input type="text" name="nama" required><br><br>
+
+    <label>No Telefon:</label><br>
+    <input type="tel" name="telefon" required><br><br>
+
+    <label>Jabatan / Organisasi:</label><br>
+    <input type="text" name="organisasi" required><br><br>
+
+    <label>Kod Unik:</label><br>
+    <input type="text" name="kod" required><br><br>
+
+    <button type="submit">Hantar</button>
+  </form>
+
+  <p id="mesej"></p>
+
+  <script>
+    const form = document.getElementById('kodForm');
+    const mesej = document.getElementById('mesej');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      mesej.textContent = 'Memproses...';
+
+      const data = {
+        nama: form.nama.value,
+        telefon: form.telefon.value,
+        organisasi: form.organisasi.value,
+        kod: form.kod.value
+      };
+
+      const response = await fetch('https://script.google.com/macros/s/AKfycbXXXXXXX/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+      mesej.textContent = result.mesej;
+    });
+  </script>
+</body>
+</html>
